@@ -17,14 +17,15 @@ import java.util.Optional;
 
 @Service
 public class FoyerService implements iFoyerService {
-   @Autowired
+    @Autowired
     FoyerRepository foyerRespository;
-   @Autowired
+    @Autowired
     BlocRepository blocRepository;
-@Autowired
-private JavaMailSender mailsender;
+    @Autowired
+    private JavaMailSender mailsender;
     @Autowired
     private NotificationRepository notificationRepository;
+
     @Override
     public List<Foyer> retrieveAllFoyers() {
         return foyerRespository.findAll();
@@ -37,22 +38,21 @@ private JavaMailSender mailsender;
 
         // Après avoir ajouté le foyer, créez une notification
         String message = "Un nouveau foyer a été ajouté : " + addedFoyer.getNomFoyer(); // Personnalisez le message selon vos besoins
-        createNotification(addedFoyer.getResponsableUsername(), message);
+        // createNotification(addedFoyer.getResponsableUsername(), message);
 
         return addedFoyer;
     }
 
     @Override
     public Foyer updateFoyer(Foyer e) throws Exception {
-        Optional<Foyer> foyerUpdated=foyerRespository.findById(e.getIdFoyer());
-        if(foyerUpdated.isPresent()){
-            Foyer readyToUpdate=foyerUpdated.get();
+        Optional<Foyer> foyerUpdated = foyerRespository.findById(e.getIdFoyer());
+        if (foyerUpdated.isPresent()) {
+            Foyer readyToUpdate = foyerUpdated.get();
             readyToUpdate.setNomFoyer(e.getNomFoyer());
             readyToUpdate.setCapaciteFoyer(e.getCapaciteFoyer());
             return foyerRespository.save(readyToUpdate);
 
-        }
-        else throw new Exception("foyer non trouvable avec id "+e.getIdFoyer());
+        } else throw new Exception("foyer non trouvable avec id " + e.getIdFoyer());
 
     }
 
@@ -66,6 +66,7 @@ private JavaMailSender mailsender;
         foyerRespository.deleteById(idFoyer);
 
     }
+
     public void archiverFoyer(long idFoyer) {
         Foyer foyer = foyerRespository.findById(idFoyer).orElse(null);
         if (foyer != null) {
@@ -73,11 +74,12 @@ private JavaMailSender mailsender;
             foyerRespository.save(foyer);
         }
     }
+
     public Foyer addFoyerWithBloc(Foyer foyer) {
 
-       Foyer f =foyerRespository.save(foyer);
+        Foyer f = foyerRespository.save(foyer);
 
-              f.getBlocs().forEach(bloc->
+        f.getBlocs().forEach(bloc ->
         {
             bloc.setFoyer(f);
             blocRepository.save(bloc);
@@ -86,11 +88,10 @@ private JavaMailSender mailsender;
         return f;
 
 
-
     }
-    public void sendEmail(String toEmail,String subject, String body)
-    {
-        SimpleMailMessage message  = new SimpleMailMessage();
+/*
+    public void sendEmail(String toEmail, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("farah.battikh.2001@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
@@ -98,8 +99,9 @@ private JavaMailSender mailsender;
         mailsender.send(message);
         System.out.println("mail sent");
     }
+
     public List<Notification> getNotificationsByUser(String username) {
-         return notificationRepository.findByUsernameOrderByTimestampDesc(username);
+        return notificationRepository.findByUsernameOrderByTimestampDesc(username);
     }
 
     public void createNotification(String username, String message) {
@@ -111,5 +113,5 @@ private JavaMailSender mailsender;
         notification.setTimestamp(LocalDateTime.now());
         notificationRepository.save(notification);
     }
-
+*/
 }

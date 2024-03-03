@@ -12,7 +12,7 @@ import tn.esprit.springproject.Service.iFoyerService;
 
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = {"tn.esprit.springproject","tn.esprit.springproject.corsconfiguration"})
+@ComponentScan(basePackages = {"tn.esprit.springproject", "tn.esprit.springproject.corsconfiguration"})
 public class SpringProjectApplication {
     @Autowired
     private iFoyerService foyerService;
@@ -20,7 +20,8 @@ public class SpringProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringProjectApplication.class, args);
     }
-@EventListener(ApplicationReadyEvent.class)
+/*
+    @EventListener(ApplicationReadyEvent.class)
     public void sendEmail()
 {
     foyerService.sendEmail(  "ramzi.bennaser@esprit.tn ", "Nouveau foyer disponible", "\n" +
@@ -33,6 +34,6 @@ public class SpringProjectApplication {
             "Le foyer est équipé de tout le confort nécessaire, notamment d'une cuisine équipée, d'une climatisation et d'un parking. Il est également situé à proximité des commodités, notamment des écoles, des commerces et des transports publics.\" n\" +" +
             "Cordialement. ");
 }
-
+*/
 
 }

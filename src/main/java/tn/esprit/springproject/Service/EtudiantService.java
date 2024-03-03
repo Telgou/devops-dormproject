@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
-
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -29,11 +28,12 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+
 import java.awt.Color;
 
 
 @Service
-public class EtudiantService implements iEtudiantService{
+public class EtudiantService implements iEtudiantService {
 
     @Autowired
     EtudiantRepository etudiantRespository;
@@ -65,19 +65,21 @@ public class EtudiantService implements iEtudiantService{
         etudiantRespository.deleteById(idEtudiant);
 
     }
+
     public Etudiant affecterEtudiantAReservation(String nomEt, String prenomEt, Long idReservation) {
         Etudiant etudiant = etudiantRespository.findByNomEtAndPrenomEt(nomEt, prenomEt);
         Reservation reservation = reservationRespository.findById(idReservation).get();
 
 
-
         etudiant.getReservations().add(reservation);
         return etudiantRespository.save(etudiant);
     }
-    public Page<Etudiant> findEtudiantsWithPagination(int offset, int pageSize){
+
+    public Page<Etudiant> findEtudiantsWithPagination(int offset, int pageSize) {
         Page<Etudiant> etudiants = etudiantRespository.findAll(PageRequest.of(offset, pageSize));
-        return  etudiants;
+        return etudiants;
     }
+
     public ByteArrayInputStream etudiantPDFReport(List<Etudiant> etudiants) {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -96,7 +98,7 @@ public class EtudiantService implements iEtudiantService{
 
             PdfPTable table = new PdfPTable(6);
             // Add PDF Table Header ->
-            Stream.of("ID", "NOM", "Prenom", "CIN", "Ecole","date de Naissance").forEach(headerTitle -> {
+            Stream.of("ID", "NOM", "Prenom", "CIN", "Ecole", "date de Naissance").forEach(headerTitle -> {
                 PdfPCell header = new PdfPCell();
                 Font headFont = FontFactory.getFont(FontFactory.TIMES_BOLD);
                 header.setBackgroundColor(Color.CYAN);
@@ -152,8 +154,6 @@ public class EtudiantService implements iEtudiantService{
 
         return new ByteArrayInputStream(out.toByteArray());
     }
-
-
 
 
 }

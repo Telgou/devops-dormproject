@@ -8,12 +8,15 @@ import tn.esprit.springproject.entity.Universite;
 import tn.esprit.springproject.Repository.UniversiteRepository;
 
 import java.util.List;
+
 @Service
-public class UniversiteService implements iUniversiteService{
+public class UniversiteService implements iUniversiteService {
+    @Autowired
     FoyerRepository foyerRespository;
 
     @Autowired
     UniversiteRepository universiteRepository;
+
     @Override
     public List<Universite> retrieveAllUniversites() {
         return universiteRepository.findAll();
@@ -46,26 +49,29 @@ public class UniversiteService implements iUniversiteService{
         Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
         Foyer foyer = foyerRespository.findById(idFoyer).get();
 
-
-        universite.setFoyer(foyer);
-        universiteRepository.save(universite);
-
+        if (universite != null && foyer != null) {
+            universite.setFoyer(foyer);
+            universiteRepository.save(universite);
+        }
 
         return universite;
     }
-    public Universite desaffecterFoyerAUniversite (long idFoyer)
-    {
+
+    public Universite desaffecterFoyerAUniversite(long idFoyer) {
         Foyer foyer = foyerRespository.findById(idFoyer).get();
-Universite universite= foyer.getUniversite();
-if (universite!= null)
-{
-    universite.setFoyer(null);
-    universiteRepository.save(universite);
+        if (foyer != null) {
+            Universite universite = foyer.getUniversite();
+            if (universite != null) {
+                universite.setFoyer(null);
+                universiteRepository.save(universite);
+            }
 
-}
+            return universite;
+        }
 
-        return universite;
+        return null; // or handle as needed
     }
+
     @Override
     public List<Universite> searchUniversites(String query) {
         List<Universite> universites = universiteRepository.searchUniversites(query);

@@ -18,7 +18,8 @@ public interface iFoyerService {
 
     void archiverFoyer(long idFoyer);
     public Foyer addFoyerWithBloc(Foyer foyer);
+    /*
     public void sendEmail(String toEmail,String subject, String body);
     public void createNotification(String username, String message);
-    public List<Notification> getNotificationsByUser(String username);
+    public List<Notification> getNotificationsByUser(String username);*/
 }

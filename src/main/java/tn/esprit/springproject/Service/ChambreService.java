@@ -17,16 +17,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 @Service
-public class ChambreService implements iChambreService{
+public class ChambreService implements iChambreService {
 
     @Autowired
     ChambreRepository chambreRepository;
     @Autowired
-BlocRepository blocRepository;
+    BlocRepository blocRepository;
     private static final Logger log = LoggerFactory.getLogger(Main.class);
+
     @Override
     public List<Chambre> retrieveAllChambers() {
         return chambreRepository.findAll();
@@ -52,6 +55,7 @@ BlocRepository blocRepository;
         chambreRepository.deleteById(idChambre);
 
     }
+
     public Chambre retrieveChambreByNumero(Long numeroChambre) {
         return chambreRepository.findByNumeroChambre(numeroChambre);
     }
@@ -61,6 +65,7 @@ BlocRepository blocRepository;
 
         return bloc.getChambres();
     }
+
     public long nbChambreParTypeEtBloc(TypeChambre type, long idBloc) {
 
         Bloc bloc = blocRepository.findById(idBloc).get();
@@ -101,11 +106,6 @@ BlocRepository blocRepository;
 
 
     }*/
-
-
-
-
-
 
 
 }

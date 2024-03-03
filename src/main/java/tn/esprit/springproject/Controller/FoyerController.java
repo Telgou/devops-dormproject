@@ -57,7 +57,7 @@ catch (Exception exp){
         return foyer ;
 
     }
-
+/*
     @GetMapping("notif/{username}")
     public ResponseEntity<List<Notification>> getNotifications(@PathVariable String username) {
         List<Notification> notifications = foyerService.getNotificationsByUser(username);
@@ -68,5 +68,5 @@ catch (Exception exp){
         foyerService.createNotification(username, message);
         return new ResponseEntity<>("Notification créée avec succès", HttpStatus.CREATED);
     }
-
+*/
 }

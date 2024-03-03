@@ -1,4 +1,5 @@
 package tn.esprit.springproject.Service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.entity.Bloc;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-public class BlocService implements iBlocService{
+public class BlocService implements iBlocService {
     //    EtudiantRespository etudiantRespository;
 
     @Autowired
@@ -44,10 +45,10 @@ public class BlocService implements iBlocService{
         blocRepository.deleteById(idBloc);
 
     }
+
     public Bloc affecterChambresABloc(List<Long> numChambres, String nomBloc) {
 
         Bloc bloc = blocRepository.findByNomBloc(nomBloc);
-
 
 
         for (Long numeroChambre : numChambres) {
@@ -60,7 +61,6 @@ public class BlocService implements iBlocService{
                 chambreService.updateChambre(chambre);
             }
         }
-
 
 
         return bloc;
