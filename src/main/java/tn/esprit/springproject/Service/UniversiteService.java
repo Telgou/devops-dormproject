@@ -1,6 +1,6 @@
 package tn.esprit.springproject.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.Repository.FoyerRepository;
 import tn.esprit.springproject.entity.Foyer;
@@ -8,13 +8,13 @@ import tn.esprit.springproject.entity.Universite;
 import tn.esprit.springproject.Repository.UniversiteRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class UniversiteService implements iUniversiteService {
-    @Autowired
     FoyerRepository foyerRespository;
 
-    @Autowired
     UniversiteRepository universiteRepository;
 
     @Override
@@ -34,7 +34,12 @@ public class UniversiteService implements iUniversiteService {
 
     @Override
     public Universite retrieveUniversites(Long idUniversite) {
-        return universiteRepository.findById(idUniversite).get();
+        Optional<Universite> value = universiteRepository.findById(idUniversite);
+
+        if (value.isPresent()) {
+            return value.get();
+        }
+        return null;
     }
 
 
@@ -47,7 +52,8 @@ public class UniversiteService implements iUniversiteService {
     @Override
     public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
         Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
-        Foyer foyer = foyerRespository.findById(idFoyer).get();
+        Optional<Foyer> vfoyer = foyerRespository.findById(idFoyer);
+        Foyer foyer = vfoyer.get();
 
         if (universite != null && foyer != null) {
             universite.setFoyer(foyer);
@@ -58,7 +64,9 @@ public class UniversiteService implements iUniversiteService {
     }
 
     public Universite desaffecterFoyerAUniversite(long idFoyer) {
-        Foyer foyer = foyerRespository.findById(idFoyer).get();
+        Optional<Foyer> vfoyer = foyerRespository.findById(idFoyer);
+        Foyer foyer = vfoyer.get();
+
         if (foyer != null) {
             Universite universite = foyer.getUniversite();
             if (universite != null) {

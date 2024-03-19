@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  frontend:
+    image: "frontend"
+    #build:
+    #  context: ./frontend 
+    container_name: "frontend"
+    ports:
+      - 4200:4200
+    expose:
+      - 4200
+    #  working_dir: /app
+    #command: "npm install && npm install -g @angular/cli@8.1.2 && ng serve --open --host 0.0.0.0 --port 4200 --disable-host-check"
+    command: "ng serve --host 0.0.0.0 --port 4200"
+    volumes:
+      #  - ./frontend:/src/app
+      - /node_modules
+      - ./frontend/src:/app/src
+    networks:
+      - devops
+
+  backend:
+    container_name: backend
+    image: "backend"
+    #build: .\backend
+    hostname: backend
+    ports:
+      - "8020:8020"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-mysql:3306/backend?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    restart: on-failure
+    networks:
+      - devops
+    depends_on:
+      - "db-mysql"
+
+  db-mysql:
+    image: "mysql:5.6"
+    container_name: db-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=backend
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    networks:
+      - devops
+
+networks:
+  devops:
+    driver: bridge
