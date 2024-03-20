@@ -13,7 +13,7 @@ public class Universite {
     private Long idUniversite;
     private String nomUniversite;
     private String adresse;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Foyer foyer ;
 
     public Universite(Long idUniversite, String nomUniversite, String adresse, Foyer foyer) {
@@ -24,6 +24,9 @@ public class Universite {
     }
 
     public Universite() {
+    }
+
+    public Universite(int i, String universiteTest) {
     }
 
     public Long getIdUniversite() {

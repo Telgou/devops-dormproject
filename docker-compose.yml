@@ -2,10 +2,10 @@ version: "3.9"
 services:
 
   backend:
-    container_name: backend
-    image: "backend"
+    container_name: dormproject
+    image: "dormproject"
     #build: .\backend
-    hostname: backend
+    hostname: dormproject
     ports:
       - "8020:8020"
     environment:

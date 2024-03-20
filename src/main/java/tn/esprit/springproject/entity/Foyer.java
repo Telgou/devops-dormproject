@@ -34,8 +34,7 @@ public class Foyer {
     @JsonBackReference
     private Set<Bloc> blocs;
 
-    @OneToOne(mappedBy = "foyer")
-
+    @OneToOne(mappedBy = "foyer", cascade = CascadeType.ALL)
     private Universite universite ;
 
     public Foyer() {

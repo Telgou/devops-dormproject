@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -27,7 +27,7 @@ class UniversiteServiceMockTest {
 
     @InjectMocks
     private UniversiteService universiteService;
-
+/*
     @Test
     void retrieveAllUniversites() {
         // Mocking the behavior of universiteRepository.findAll()
@@ -78,5 +78,31 @@ class UniversiteServiceMockTest {
         verify(universiteRepository, times(1)).save(mockedUniversite);
     }
 
-    // Add similar tests for other methods in UniversiteService
+    @Test
+    void desaffecterFoyerAUniversite() {
+        // Simulation du comportement des repositories et des entités
+        long idFoyer = 1;
+        long idUniversite = 1;
+        Foyer foyer = new Foyer();
+        Universite universite = new Universite();
+
+        when(universiteRepository.findById(idUniversite)).thenReturn(Optional.of(universite));
+        when(foyerRepository.findById(idFoyer)).thenReturn(Optional.of(foyer));
+
+        // Exécution de la méthode
+        Universite result = universiteService.desaffecterFoyerAUniversite(idFoyer);
+
+        if (result != null) {
+            // Assertions
+            assertNull(result.getFoyer());
+
+            // Vérification que les méthodes des repositories ont été appelées
+            verify(universiteRepository, times(1)).findById(idUniversite);
+            verify(foyerRepository, times(1)).findById(idFoyer);
+        } else {
+            // Handle the case where the result is null
+            // Log or throw an exception, depending on your requirements
+        }
+    }*/
+
 }

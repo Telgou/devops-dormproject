@@ -1,17 +1,18 @@
 package tn.esprit.springproject.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.Repository.FoyerRepository;
 import tn.esprit.springproject.entity.Foyer;
 import tn.esprit.springproject.entity.Universite;
 import tn.esprit.springproject.Repository.UniversiteRepository;
-
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class UniversiteService implements iUniversiteService {
     FoyerRepository foyerRespository;
 
@@ -53,11 +54,15 @@ public class UniversiteService implements iUniversiteService {
     public Universite affecterFoyerAUniversite(long idFoyer, String nomUniversite) {
         Universite universite = universiteRepository.findByNomUniversite(nomUniversite);
         Optional<Foyer> vfoyer = foyerRespository.findById(idFoyer);
-        Foyer foyer = vfoyer.get();
+        if (vfoyer.isPresent()) {
+            Foyer foyer = vfoyer.get();
 
-        if (universite != null && foyer != null) {
-            universite.setFoyer(foyer);
-            universiteRepository.save(universite);
+            if (universite != null && foyer != null) {
+                universite.setFoyer(foyer);
+                foyer.setUniversite(universite);
+                foyerRespository.save(foyer);
+                universiteRepository.save(universite);
+            }
         }
 
         return universite;
@@ -65,16 +70,18 @@ public class UniversiteService implements iUniversiteService {
 
     public Universite desaffecterFoyerAUniversite(long idFoyer) {
         Optional<Foyer> vfoyer = foyerRespository.findById(idFoyer);
-        Foyer foyer = vfoyer.get();
 
-        if (foyer != null) {
+        if (vfoyer.isPresent()) {
+            Foyer foyer = vfoyer.get();
+
             Universite universite = foyer.getUniversite();
+            log.info("ZZZZZZZZZZZZZ "+ universite);
             if (universite != null) {
                 universite.setFoyer(null);
                 universiteRepository.save(universite);
+                log.info("ZZZZZZZZZZZZZZZZ "+ universite);
+                return universite;
             }
-
-            return universite;
         }
 
         return null; // or handle as needed
@@ -82,8 +89,7 @@ public class UniversiteService implements iUniversiteService {
 
     @Override
     public List<Universite> searchUniversites(String query) {
-        List<Universite> universites = universiteRepository.searchUniversites(query);
-        return universites;
+        return universiteRepository.searchUniversites(query);
     }
 
 }
