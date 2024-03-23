@@ -17,7 +17,6 @@ services:
       - devops
     depends_on:
       - "db-mysql"
-      - "nginx"
 
   angular-app:
     container_name: front
