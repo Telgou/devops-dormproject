@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28772333-ca09-4e33-b198-b92164d39352" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/6/26b3a132c90d5c8770738afa8fbe93e7d4d4c04e" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/6/26b3a132c90d5c8770738afa8fbe93e7d4d4c04e" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/main/java/tn/esprit/springproject/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/java/tn/esprit/springproject/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +62,7 @@
       <workItem from="1711153378548" duration="1431000" />
       <workItem from="1711156584674" duration="76000" />
       <workItem from="1711157630126" duration="2440000" />
+      <workItem from="1711161566011" duration="320000" />
     </task>
     <servers />
   </component>
