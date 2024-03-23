@@ -32,12 +32,17 @@ services:
       - devops 
     depends_on:
       - "db-mysql"
-      - "nginx"  
 
-  nginx:
-    image: nginx:latest
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
     ports:
-      - 80:80 
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+    networks:
+      - devops
 
   db-mysql:
     image: "mysql:5.6"
@@ -50,7 +55,6 @@ services:
     restart: unless-stopped
     networks:
       - devops
-
 networks:
   devops:
     driver: bridge
