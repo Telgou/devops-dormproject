@@ -1,0 +1,14 @@
+
+y
+java:S1488 "dImmediately return this expression instead of assigning it to the temporary variable "listChambers".(×Òú2
+z
+java:S1488+"_Immediately return this expression instead of assigning it to the temporary variable "chambre".(þÍ®ÿûÿÿÿÿ
+u
+java:S14886"_Immediately return this expression instead of assigning it to the temporary variable "chambre".(Šˆ»³
+x
+java:S1488C"]Immediately return this expression instead of assigning it to the temporary variable "count".(Âª½Åùÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(œä³“
+X
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ
+X
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ
