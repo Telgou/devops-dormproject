@@ -32,17 +32,6 @@ services:
     depends_on:
       - "db-mysql"
 
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    restart: unless-stopped
-    networks:
-      - devops
-
   db-mysql:
     image: "mysql:5.6"
     container_name: db-mysql

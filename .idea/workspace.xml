@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28772333-ca09-4e33-b198-b92164d39352" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back/src/main/java/tn/esprit/springproject/Controller/PrometheusController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/back/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +57,7 @@
       <updated>1711153377201</updated>
       <workItem from="1711153378548" duration="1431000" />
       <workItem from="1711156584674" duration="76000" />
-      <workItem from="1711157630126" duration="418000" />
+      <workItem from="1711157630126" duration="1305000" />
     </task>
     <servers />
   </component>
