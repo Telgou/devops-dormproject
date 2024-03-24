@@ -23,6 +23,9 @@ const routes: Routes = [
         loadChildren: () =>
           import('./Etudiant/etudiant/etudiant.module').then((e) => e.EtudiantModule),
       },
+      {
+        path: '*',
+        redirectTo: 'dashboard', },
   
   
 
