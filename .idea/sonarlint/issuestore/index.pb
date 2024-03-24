@@ -19,3 +19,11 @@ Eback/src/main/java/tn/esprit/springproject/config/SecurityConfig.java,8\8\88d4
 Sback/src/main/java/tn/esprit/springproject/config/UserAuthenticationEntryPoint.java,7\6\76bf59fef5d908094f57cdd2bcae24bb2b534d96
 w
 Gback/src/main/java/tn/esprit/springproject/config/UserAuthProvider.java,d\f\dfd0b3ccbe663ad5575038b37773788ecaaa4409
+y
+Iback/src/main/java/tn/esprit/springproject/Controller/AuthController.java,5\3\5373b8a72a3a59365d331238ec4626fe309501d9
+p
+@back/src/main/java/tn/esprit/springproject/config/WebConfig.java,5\5\557d66ccaafabccc60706eefc642bcff21ef995c
+o
+?back/src/main/java/tn/esprit/springproject/entity/Etudiant.java,9\f\9f9ad60f522eddc1f2a3ea60801c54c53e863ef9
+k
+;back/src/main/java/tn/esprit/springproject/entity/User.java,3\7\3748a77e63b26f45a2aaf873498b00ed40873a2a

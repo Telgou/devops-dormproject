@@ -1,0 +1,9 @@
+
+k	java:S1178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ò¶ÉÞúÿÿÿÿ
+w
+java:S1488D"\Immediately return this expression instead of assigning it to the temporary variable "user".(‡·°×ùÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(œä³“
+O
+java:S18540"9Remove this useless assignment to local variable "token".(¹à©˜
+@
+java:S14810"*Remove this unused "token" local variable.(¹à©˜
