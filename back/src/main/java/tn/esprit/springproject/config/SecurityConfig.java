@@ -24,12 +24,7 @@ public class SecurityConfig {
    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        log.info(" NEW WORKING ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
-       http
-                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(userAuthenticationEntryPoint))
-                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());
+       http.csrf().disable();
 
        return http.build();
     }
