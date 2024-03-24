@@ -30,11 +30,13 @@ public class WebConfig {
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
+                HttpHeaders.ORIGIN,
                 HttpHeaders.ACCEPT));
         config.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
                 HttpMethod.PUT.name(),
+                HttpMethod.PATCH.name(),
                 HttpMethod.DELETE.name()));
         config.setMaxAge(MAX_AGE);
         source.registerCorsConfiguration("/a", config);
