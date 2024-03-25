@@ -23,8 +23,8 @@ public class SecurityConfig {
    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        log.info(" NEW WORKING ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
-       http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+       //http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 
-       return http.build();
+        web.ignoring().antMatchers("/**");
     }
 }
