@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.springproject.Dto.APIResponse;
 import tn.esprit.springproject.Repository.EtudiantRepository;
 import tn.esprit.springproject.Service.EtudiantService;
 import tn.esprit.springproject.Service.iChambreService;
@@ -57,11 +56,12 @@ public class EtudiantController
 
         return etudiantsevice.affecterEtudiantAReservation( nomEt,  prenomEt,  idReservation);
     }
+    /*
     @GetMapping("/pagination/{offset}/{pageSize}")
     private APIResponse<Page<Etudiant>> findEtudiantsWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
         Page<Etudiant> productsWithPagination = etudiantsevice.findEtudiantsWithPagination(offset, pageSize);
         return new APIResponse<>(productsWithPagination.getSize(), productsWithPagination);
-    }
+    }*/
 
     @GetMapping(value = "/openpdf", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> etudiantReport()  throws IOException {
