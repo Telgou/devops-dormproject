@@ -2,7 +2,6 @@ package tn.esprit.springproject.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.Repository.BlocRepository;
 import tn.esprit.springproject.Repository.NotificationRepository;
@@ -21,8 +20,6 @@ public class FoyerService implements iFoyerService {
     FoyerRepository foyerRespository;
     @Autowired
     BlocRepository blocRepository;
-    @Autowired
-    private JavaMailSender mailsender;
     @Autowired
     private NotificationRepository notificationRepository;
 
