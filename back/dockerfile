@@ -1,4 +1,7 @@
 FROM openjdk:17
+
+RUN mvn clean package
+
 EXPOSE 8020
 ADD target/springProject-0.0.1-SNAPSHOT.jar dormproject.jar
 ENTRYPOINT ["java", "-jar", "dormproject.jar"]
