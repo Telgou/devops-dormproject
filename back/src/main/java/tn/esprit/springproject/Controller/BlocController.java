@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/blocs")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BlocController {
 
     @Autowired

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 @RestController
 @RequestMapping("/reservations")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ReservationController {
 
     @Autowired

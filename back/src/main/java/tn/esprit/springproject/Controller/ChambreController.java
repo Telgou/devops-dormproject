@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/chambres")
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ChambreController {
     @Autowired
     private iChambreService chambreService;

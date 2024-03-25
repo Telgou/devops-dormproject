@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/foyer")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FoyerController {
 
     @Autowired
