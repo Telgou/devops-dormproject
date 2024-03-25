@@ -20,7 +20,7 @@ public class SpringProjectApplication {
     private iFoyerService foyerService;
 
     public static void main(String[] args) {
-        log.info(" NEW WORKING ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+        log.info(" NEW WORKING GAMGAMI AHMEDdddddddddddddddddddddddddddddddddddddddddddddddd");
         SpringApplication.run(SpringProjectApplication.class, args);
     }
 /*
