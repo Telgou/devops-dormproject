@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dormproject-backend
+spec:
+  replicas: 1 # or the desired number of replicas
+  selector:
+    matchLabels:
+      app: dormproject-backend
+  template:
+    metadata:
+      labels:
+        app: dormproject-backend
+    spec:
+      containers:
+        - name: dormproject
+          image: dormproject
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://db-mysql:3306/backend?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "root"
+  restartPolicy: Always
