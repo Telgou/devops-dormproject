@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: dormproject
-          image: dormproject
+          image: telgou/dormproject:latest
           ports:
             - containerPort: 8081
           env:
