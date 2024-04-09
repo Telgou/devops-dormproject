@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: dormproject
-          image: dormproject
+          image: dormproject:latest
           ports:
             - containerPort: 8081
           env:
@@ -25,3 +25,16 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: "root"
   restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dormproject-backend
+spec:
+  selector:
+    app: dormproject-backend
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP
