@@ -63,3 +63,81 @@ spec:
               value: backend
           ports:
             - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-mysql-service
+spec:
+  selector:
+    app: db-mysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-mysql
+  template:
+    metadata:
+      labels:
+        app: db-mysql
+    spec:
+      containers:
+        - name: db-mysql
+          image: mysql:5.6
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: backend
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: db-volume
+              mountPath: /var/lib/mysql
+          volumes:
+            - name: db-volume
+              emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-app
+spec:
+  replicas: 1 # or the desired number of replicas
+  selector:
+    matchLabels:
+      app: angular-app
+  template:
+    metadata:
+      labels:
+        app: angular-app
+    spec:
+      containers:
+        - name: front
+          image: front
+          ports:
+            - containerPort: 4200
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular-app
+spec:
+  selector:
+    app: angular-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4200
+  type: ClusterIP
