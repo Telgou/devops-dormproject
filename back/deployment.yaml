@@ -101,9 +101,4 @@ spec:
               value: backend
           ports:
             - containerPort: 3306
-          volumeMounts:
-            - name: db-volume
-              mountPath: /var/lib/mysql
-          volumes:
-            - name: db-volume
-              emptyDir: {}
+          
