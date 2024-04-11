@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontdormproject-service
+spec:
+  selector:
+    app: frontdormproject
+  ports:
+    - protocol: TCP
+      port: 4200
+      targetPort: 4200
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontdormproject-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontdormproject
+  template:
+    metadata:
+      labels:
+        app: frontdormproject
+    spec:
+      containers:
+        - name: frontdormproject
+          image: telgou/frontdormprojectdormproject:latest
+          ports:
+            - containerPort: 4200
+---
