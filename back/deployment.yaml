@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dbmysql-service
+  name: dbmysql-servicee
 spec:
   selector:
-    app: dbmysql
+    app: dbmysqll
   ports:
   - protocol: TCP
     port: 3306
@@ -14,19 +14,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dbmysql-deployment
+  name: dbmysql-deploymentt
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dbmysql
+      app: dbmysqll
   template:
     metadata:
       labels:
-        app: dbmysql
+        app: dbmysqll
     spec:
       containers:
-        - name: dbmysql
+        - name: dbmysqll
           image: mysql:5.6
           ports:
             - containerPort: 3306
@@ -44,10 +44,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dormproject-backend
+  name: dormproject-backendd
 spec:
   selector:
-    app: dormproject-backend
+    app: dormproject-backendd
   ports:
     - protocol: TCP
       port: 8081
@@ -57,20 +57,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dormproject-backend
+  name: dormproject-backendd
 spec:
   replicas: 1 # or the desired number of replicas
   selector:
     matchLabels:
-      app: dormproject-backend
+      app: dormproject-backendd
   template:
     metadata:
       labels:
-        app: dormproject-backend
+        app: dormproject-backendd
     spec:
       containers:
         - name: dormproject
-          image: telgou/dormproject:latest
+          image: telgou/dormproject:1
           ports:
             - containerPort: 8081
           env:
