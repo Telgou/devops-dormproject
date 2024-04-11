@@ -1,3 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbmysql-service
+spec:
+  selector:
+    app: dbmysql
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbmysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbmysql
+  template:
+    metadata:
+      labels:
+        app: dbmysql
+    spec:
+      containers:
+        - name: dbmysql
+          image: mysql:5.6
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+          volumeMounts:
+            - name: db-volume
+              mountPath: /var/lib/mysql
+          volumes:
+            - name: db-volume
+              emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dormproject-backend
+spec:
+  selector:
+    app: dormproject-backend
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: NodePort
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,79 +81,3 @@ spec:
               value: "root"
   restartPolicy: Always
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: dormproject-backend
-spec:
-  selector:
-    app: dormproject-backend
-  ports:
-    - protocol: TCP
-      port: 8081
-      targetPort: 8081
-  type: NodePort
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: db-mysql
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: db-mysql
-  template:
-    metadata:
-      labels:
-        app: db-mysql
-    spec:
-      containers:
-        - name: db-mysql
-          image: mysql:5.6
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: root
-            - name: MYSQL_DATABASE
-              value: backend
-          ports:
-            - containerPort: 3306
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db-mysql-service
-spec:
-  selector:
-    app: db-mysql
-  ports:
-  - protocol: TCP
-    port: 3306
-    targetPort: 3306
-  type: NodePort
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: db-mysql
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: db-mysql
-  template:
-    metadata:
-      labels:
-        app: db-mysql
-    spec:
-      containers:
-        - name: db-mysql
-          image: mysql:5.6
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: root
-            - name: MYSQL_DATABASE
-              value: backend
-          ports:
-            - containerPort: 3306
-          
