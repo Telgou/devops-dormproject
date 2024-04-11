@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: frontdormproject
-          image: telgou/frontdormprojectdormproject:latest
+          image: telgou/frontdormproject:latest
           ports:
             - containerPort: 4200
 ---
