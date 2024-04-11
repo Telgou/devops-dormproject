@@ -1,87 +1,90 @@
 apiVersion: v1
-kind: List
-items:
-  - apiVersion: v1
-    kind: Service
+kind: Service
+metadata:
+  labels:
+    app: spring-boot-kubernetes-mysql
+    version: 5.0.0
+  name: spring-boot-kubernetes-mysql
+spec:
+  ports:
+    - name: http
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+      nodePort: 8081
+  type: NodePort
+  selector:
+    app: spring-boot-kubernetes-mysql
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spring-boot-kubernetes-mysql
+  labels:
+    account: spring-boot-kubernetes-mysql
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spring-boot-kubernetes-mysql
+    version: 5.0.0
+  name: spring-boot-kubernetes-mysql
+spec:
+  selector:
+    matchLabels:
+      app: spring-boot-kubernetes-mysql
+  template:
     metadata:
       labels:
         app: spring-boot-kubernetes-mysql
         version: 5.0.0
-      name: spring-boot-kubernetes-mysql
     spec:
-      ports:
-        - name: http
-          port: 8081
-          protocol: TCP
-          targetPort: 8081
-          nodePort: 8081
-      type: NodePort
-      selector:
-        app: spring-boot-kubernetes-mysql
-  - apiVersion: v1
-    kind: ServiceAccount
-    metadata:
-      name: spring-boot-kubernetes-mysql
-      labels:
-        account: spring-boot-kubernetes-mysql
-  - apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      labels:
-        app: spring-boot-kubernetes-mysql
-        version: 5.0.0
-      name: spring-boot-kubernetes-mysql
-    spec:
-      selector:
-        matchLabels:
-          app: spring-boot-kubernetes-mysql
-      template:
-        metadata:
-          labels:
-            app: spring-boot-kubernetes-mysql
-            version: 5.0.0
-        spec:
-          serviceAccountName: spring-boot-kubernetes-mysql
-          containers:
-            - name: spring-boot-kubernetes-mysql
-              image: telgou/dormproject:1
-              imagePullPolicy: IfNotPresent
-              resources:
-                limits:
-                  memory: "1Gi"
-                  cpu: "1"
-                requests:
-                  memory: "100Mi"
-                  cpu: "100m"
-              ports:
-                - containerPort: 8080
-                  name: http
-                  protocol: TCP
-              env:
-                - name: SPRING_PROFILES_ACTIVE
-                  value: k8s
-                - name: SPRING_DATASOURCE_URL
-                  valueFrom:
-                    configMapKeyRef:
-                      name: mysql-config
-                      key: MYSQL_DATABASE_URL
-                - name: SPRING_DATASOURCE_USERNAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: mysql-secret
-                      key: MYSQL_USER
-                - name: SPRING_DATASOURCE_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: mysql-secret
-                      key: MYSQL_PASSWORD
-              securityContext:
-                # runAsUser: 1000
-                # readOnlyRootFilesystem: true
-                allowPrivilegeEscalation: false
-              livenessProbe:
-                httpGet:
-                  path: /api/v1/actuator/health
-                  port: 8080
-                initialDelaySeconds: 15
-                periodSeconds: 5
+      serviceAccountName: spring-boot-kubernetes-mysql
+      containers:
+        - name: spring-boot-kubernetes-mysql
+          image: telgou/dormproject:1
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          securityContext:
+            # runAsUser: 1000
+            # readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            httpGet:
+              path: /api/v1/actuator/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
