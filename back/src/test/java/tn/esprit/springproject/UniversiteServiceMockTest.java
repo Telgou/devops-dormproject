@@ -27,7 +27,7 @@ class UniversiteServiceMockTest {
 
     @InjectMocks
     private UniversiteService universiteService;
-/*
+
     @Test
     void retrieveAllUniversites() {
         // Mocking the behavior of universiteRepository.findAll()
@@ -103,6 +103,6 @@ class UniversiteServiceMockTest {
             // Handle the case where the result is null
             // Log or throw an exception, depending on your requirements
         }
-    }*/
+    }
 
 }
