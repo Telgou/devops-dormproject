@@ -38,7 +38,7 @@ spec:
       containers:
         - name: spring-boot-kubernetes-mysql
           image: telgou/dormproject:1
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             limits:
               memory: "1Gi"
@@ -69,8 +69,6 @@ spec:
                   name: mysql-secret
                   key: MYSQL_PASSWORD
           securityContext:
-            # runAsUser: 1000
-            # readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
           livenessProbe:
             httpGet:
