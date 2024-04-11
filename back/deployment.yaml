@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-kubernetes-mysql
-          image: telgou/dormproject:1
+          image: telgou/dormproject:latest
           imagePullPolicy: Always
           resources:
             limits:
