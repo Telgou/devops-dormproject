@@ -11,7 +11,7 @@ spec:
       port: 8081
       protocol: TCP
       targetPort: 8081
-      nodePort: 8081
+      nodePort: 31371
   type: NodePort
   selector:
     app: spring-boot-kubernetes-mysql
@@ -57,7 +57,7 @@ spec:
               memory: "100Mi"
               cpu: "100m"
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
               name: http
               protocol: TCP
           env:
@@ -85,6 +85,6 @@ spec:
           livenessProbe:
             httpGet:
               path: /api/v1/actuator/health
-              port: 8080
+              port: 8081
             initialDelaySeconds: 15
             periodSeconds: 5
