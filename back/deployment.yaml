@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: spring-boot-kubernetes-mysql
-    version: 5.0.0
+    version: 1.0.0
   name: spring-boot-kubernetes-mysql
 spec:
   ports:
@@ -23,7 +23,7 @@ kind: Deployment
 metadata:
   labels:
     app: spring-boot-kubernetes-mysql
-    version: 5.0.0
+    version: 1.0.0
   name: spring-boot-kubernetes-mysql
 spec:
   selector:
@@ -33,7 +33,7 @@ spec:
     metadata:
       labels:
         app: spring-boot-kubernetes-mysql
-        version: 5.0.0
+        version: 1.0.0
     spec:
       containers:
         - name: spring-boot-kubernetes-mysql
@@ -68,11 +68,3 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: MYSQL_PASSWORD
-          securityContext:
-            allowPrivilegeEscalation: false
-          livenessProbe:
-            httpGet:
-              path: /api/v1/actuator/health
-              port: 8081
-            initialDelaySeconds: 15
-            periodSeconds: 5
