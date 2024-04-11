@@ -1,84 +1,188 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dbmysql-servicee
+  name: mysql
+  labels:
+    app: mysql
 spec:
-  selector:
-    app: dbmysqll
-  ports:
-  - protocol: TCP
-    port: 3306
-    targetPort: 3306
   type: NodePort
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dbmysql-deploymentt
-spec:
-  replicas: 1
+  ports:
+    - port: 3306
+      nodePort: 3306
   selector:
-    matchLabels:
-      app: dbmysqll
-  template:
-    metadata:
-      labels:
-        app: dbmysqll
-    spec:
-      containers:
-        - name: dbmysqll
-          image: mysql:5.6
-          ports:
-            - containerPort: 3306
-          imagePullPolicy: Always
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "root"
-          volumeMounts:
-            - name: db-volume
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: db-volume
-          emptyDir: {}
+    app: mysql
 ---
 apiVersion: v1
-kind: Service
+kind: PersistentVolumeClaim
 metadata:
-  name: dormproject-backendd
+  name: mysql-pv-claim
 spec:
-  selector:
-    app: dormproject-backendd
-  ports:
-    - protocol: TCP
-      port: 8081
-      targetPort: 8081
-  type: NodePort
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dormproject-backendd
+  name: mysql
+  labels:
+    app: mysql
 spec:
-  replicas: 1 # or the desired number of replicas
   selector:
     matchLabels:
-      app: dormproject-backendd
+      app: mysql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: dormproject-backendd
+        app: mysql
     spec:
       containers:
-        - name: dormproject
-          image: telgou/dormproject:1
-          ports:
-            - containerPort: 8081
+        - image: mysql:5.6
+          name: mysql
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://db-mysql:3306/backend?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "root"
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: "root"
-  restartPolicy: Always
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+        - name: initdb
+          configMap:
+            name: mysql-config
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  MYSQL_DATABASE: petdb
+  MYSQL_DATABASE_URL: jdbc:mysql://mysql/petdb
+  initdb.sql: |
+    use petdb;
+    CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+    INSERT INTO pet VALUES ('Puffball','Diane','hamster','f','1999-03-30',NULL);
+---
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: spring-boot-kubernetes-mysql
+        version: 5.0.0
+      name: spring-boot-kubernetes-mysql
+    spec:
+      ports:
+        - name: http
+          port: 8081
+          protocol: TCP
+          targetPort: 8081
+          nodePort: 8081
+      type: NodePort
+      selector:
+        app: spring-boot-kubernetes-mysql
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: spring-boot-kubernetes-mysql
+      labels:
+        account: spring-boot-kubernetes-mysql
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: spring-boot-kubernetes-mysql
+        version: 5.0.0
+      name: spring-boot-kubernetes-mysql
+    spec:
+      selector:
+        matchLabels:
+          app: spring-boot-kubernetes-mysql
+      template:
+        metadata:
+          labels:
+            app: spring-boot-kubernetes-mysql
+            version: 5.0.0
+        spec:
+          serviceAccountName: spring-boot-kubernetes-mysql
+          containers:
+            - name: spring-boot-kubernetes-mysql
+              image: telgou/dormproject:1
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  memory: "1Gi"
+                  cpu: "1"
+                requests:
+                  memory: "100Mi"
+                  cpu: "100m"
+              ports:
+                - containerPort: 8080
+                  name: http
+                  protocol: TCP
+              env:
+                - name: SPRING_PROFILES_ACTIVE
+                  value: k8s
+                - name: SPRING_DATASOURCE_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: mysql-config
+                      key: MYSQL_DATABASE_URL
+                - name: SPRING_DATASOURCE_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_USER
+                - name: SPRING_DATASOURCE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_PASSWORD
+              securityContext:
+                # runAsUser: 1000
+                # readOnlyRootFilesystem: true
+                allowPrivilegeEscalation: false
+              livenessProbe:
+                httpGet:
+                  path: /api/v1/actuator/health
+                  port: 8080
+                initialDelaySeconds: 15
+                periodSeconds: 5
