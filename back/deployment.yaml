@@ -18,15 +18,6 @@ spec:
 
 ---
 
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: spring-boot-kubernetes-mysql
-  labels:
-    account: spring-boot-kubernetes-mysql
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,7 +35,6 @@ spec:
         app: spring-boot-kubernetes-mysql
         version: 5.0.0
     spec:
-      serviceAccountName: spring-boot-kubernetes-mysql
       containers:
         - name: spring-boot-kubernetes-mysql
           image: telgou/dormproject:1
