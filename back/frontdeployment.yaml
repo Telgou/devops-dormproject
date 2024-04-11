@@ -9,6 +9,7 @@ spec:
     - protocol: TCP
       port: 4200
       targetPort: 4200
+      nodePort: 32243
   type: NodePort
 ---
 apiVersion: apps/v1
