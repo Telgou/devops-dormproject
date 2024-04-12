@@ -1,8 +1,6 @@
 package tn.esprit.springproject.Service;
 
-import com.sun.tools.javac.Main;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.Repository.BlocRepository;
 import tn.esprit.springproject.entity.Bloc;
@@ -12,23 +10,16 @@ import tn.esprit.springproject.entity.Chambre;
 import tn.esprit.springproject.Repository.ChambreRepository;
 import tn.esprit.springproject.entity.TypeChambre;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
+@AllArgsConstructor
 public class ChambreService implements iChambreService {
 
-    @Autowired
     ChambreRepository chambreRepository;
-    @Autowired
     BlocRepository blocRepository;
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     @Override
     public List<Chambre> retrieveAllChambers() {
@@ -47,13 +38,20 @@ public class ChambreService implements iChambreService {
 
     @Override
     public Chambre retrieveChambre(Long idChambre) {
-        return chambreRepository.findById(idChambre).get();
+        Optional<Chambre> optionalChambre = chambreRepository.findById(idChambre);
+        if (optionalChambre.isPresent()) {
+            return optionalChambre.get();
+        } else {
+            // Handle the case where the Chambre with the given ID doesn't exist
+            // You might want to throw an exception, return null, or handle it differently based on your application logic
+            return null; // or throw an exception
+        }
     }
+
 
     @Override
     public void removeChambre(Long idChambre) {
         chambreRepository.deleteById(idChambre);
-
     }
 
     public Chambre retrieveChambreByNumero(Long numeroChambre) {
@@ -62,50 +60,25 @@ public class ChambreService implements iChambreService {
 
     public Set<Chambre> getChambresParNomBloc(String nomBloc) {
         Bloc bloc = blocRepository.findByNomBloc(nomBloc);
-
         return bloc.getChambres();
     }
 
     public long nbChambreParTypeEtBloc(TypeChambre type, long idBloc) {
+        Optional<Bloc> optionalBloc = blocRepository.findById(idBloc);
+        if (optionalBloc.isPresent()) {
+            Bloc bloc = optionalBloc.get();
 
-        Bloc bloc = blocRepository.findById(idBloc).get();
-
-        long count = 0;
-        for (Chambre chambre : bloc.getChambres()) {
-            if (chambre.getTypeC() == type) {
-                count++;
+            long count = 0;
+            for (Chambre chambre : bloc.getChambres()) {
+                if (chambre.getTypeC() == type) {
+                    count++;
+                }
             }
+            return count;
+        } else {
+            return 0;
         }
-
-        return count;
     }
-
-
-    //@Scheduled(cron = "*/5 * * * * *")
-   /* public void listeChambresParBloc() {
-        log.info("Liste des chambres par bloc");
-        Map<Bloc, List<Chambre>> chambresParBloc = chambreRepository.findAll().stream()
-                .collect(Collectors.groupingBy(Chambre::getBlocs));
-        chambresParBloc.forEach((bloc, chambres) -> {
-            System.out.println("Bloc : " + bloc);
-            chambres.forEach(chambre -> System.out.println("\t" + chambre));
-        });
-    }
-
-    @Scheduled(fixedRate = 300000)
-    public void pourcentageChambreParTypeChambre() {
-
-
-        log.info("Pourcentage de chambres par type de chambre");
-        Map<TypeChambre, Long> chambresParType = chambreRepository.findAll().stream()
-                .collect(Collectors.groupingBy(Chambre::getTypeC, Collectors.counting()));
-        chambresParType.forEach((typeChambre, nombreChambres) -> {
-            log.info("Type de chambre : " + typeChambre);
-            log.info("\tPourcentage : " + (nombreChambres * 100) / chambreRepository.count());
-        });
-
-
-    }*/
 
 
 }

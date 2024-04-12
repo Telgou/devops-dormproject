@@ -29,6 +29,13 @@ spec:
       containers:
         - name: frontdormproject
           image: telgou/frontdormproject:latest
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
           ports:
             - containerPort: 4200
 ---

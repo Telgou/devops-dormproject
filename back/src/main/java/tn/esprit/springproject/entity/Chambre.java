@@ -1,8 +1,6 @@
 package tn.esprit.springproject.entity;
 
 import jakarta.persistence.*;
-import jakarta.websocket.OnMessage;
-import lombok.Getter;
 
 import java.util.Set;
 

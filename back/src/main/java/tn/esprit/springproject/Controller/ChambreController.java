@@ -1,36 +1,30 @@
 package tn.esprit.springproject.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.springproject.Repository.ChambreRepository;
-import tn.esprit.springproject.Service.iBlocService;
 import tn.esprit.springproject.Service.iChambreService;
-import tn.esprit.springproject.entity.Bloc;
 import tn.esprit.springproject.entity.Chambre;
 import tn.esprit.springproject.entity.TypeChambre;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/chambres")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@AllArgsConstructor
 public class ChambreController {
-    @Autowired
+
     private iChambreService chambreService;
-    @Autowired
+
     private ChambreRepository chambreRepository;
 
 
 
     @GetMapping("/retrieve-all-chambers")
     public List<Chambre> getChambers() {
-        List<Chambre> listChambers = chambreService.retrieveAllChambers();
-        return listChambers;
+        return chambreService.retrieveAllChambers();
     }
 
     @GetMapping("/retrieve-chambre/{chambre-id}")
@@ -40,8 +34,7 @@ public class ChambreController {
 
     @PostMapping("/add-chambre")
     public Chambre addChambre(@RequestBody Chambre e) {
-        Chambre chambre = chambreService.addChambre(e);
-        return chambre;
+        return chambreService.addChambre(e);
     }
 
     @DeleteMapping("/remove-chambre/{chambre-id}")
@@ -51,8 +44,7 @@ public class ChambreController {
 
     @PutMapping("/update-chambre")
     public Chambre updateChambre(@RequestBody Chambre e) {
-        Chambre chambre = chambreService.updateChambre(e);
-        return chambre;
+        return chambreService.updateChambre(e);
     }
 
     @GetMapping("/getchambres_nom/{nomBloc}")
@@ -63,10 +55,7 @@ public class ChambreController {
     @GetMapping("/nb-chambres-par-type-et-bloc")
 
     public long nbChambresParTypeEtBloc(@RequestParam(name = "type") TypeChambre type, @RequestParam(name = "idBloc") Long idBloc) {
-
-        long count = chambreService.nbChambreParTypeEtBloc(type, idBloc);
-
-        return count;
+        return chambreService.nbChambreParTypeEtBloc(type, idBloc);
     }
 
 

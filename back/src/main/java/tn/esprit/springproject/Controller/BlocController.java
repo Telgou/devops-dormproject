@@ -1,7 +1,7 @@
 
 package tn.esprit.springproject.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.springproject.Service.iBlocService;
 import tn.esprit.springproject.entity.Bloc;
@@ -11,15 +11,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/blocs")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@AllArgsConstructor
 public class BlocController {
 
-    @Autowired
     private iBlocService blocService;
 
     @GetMapping("/retrieve-all-blocs")
     public List<Bloc> getBlocs() {
-        List<Bloc> listBlocs = blocService.retrieveAllBlocs();
-        return listBlocs;
+        return blocService.retrieveAllBlocs();
     }
 
     @GetMapping("/retrieve-bloc/{bloc-id}")
@@ -29,8 +28,7 @@ public class BlocController {
 
     @PostMapping("/add-bloc")
     public Bloc addBloc(@RequestBody Bloc e) {
-        Bloc bloc = blocService.addBloc(e);
-        return bloc;
+        return blocService.addBloc(e);
     }
 
     @DeleteMapping("/remove-bloc/{bloc-id}")
@@ -40,8 +38,7 @@ public class BlocController {
 
     @PutMapping("/update-bloc")
     public Bloc updateBloc(@RequestBody Bloc e) {
-        Bloc bloc = blocService.updateBloc(e);
-        return bloc;
+        return blocService.updateBloc(e);
     }
     @PostMapping("/affecter-chambres/{nomBloc}")
     public Bloc affecterChambresABloc(

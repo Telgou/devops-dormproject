@@ -1,6 +1,6 @@
 package tn.esprit.springproject.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import tn.esprit.springproject.entity.Etudiant;
 import tn.esprit.springproject.Repository.EtudiantRepository;
 import tn.esprit.springproject.entity.Reservation;
 
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -33,11 +33,10 @@ import java.awt.Color;
 
 
 @Service
+@AllArgsConstructor
 public class EtudiantService implements iEtudiantService {
 
-    @Autowired
     EtudiantRepository etudiantRespository;
-    @Autowired
     ReservationRepository reservationRespository;
 
     @Override
@@ -57,7 +56,14 @@ public class EtudiantService implements iEtudiantService {
 
     @Override
     public Etudiant retrieveEtudiant(Long idEtudiant) {
-        return etudiantRespository.findById(idEtudiant).get();
+        Optional<Etudiant> optionalEtudiant = etudiantRespository.findById(idEtudiant);
+        if (optionalEtudiant.isPresent()) {
+            return optionalEtudiant.get();
+        } else {
+            // Handle the case where the Etudiant with the given ID doesn't exist
+            // You might want to throw an exception, return null, or handle it differently based on your application logic
+            return null; // or throw an exception
+        }
     }
 
     @Override
@@ -66,18 +72,22 @@ public class EtudiantService implements iEtudiantService {
 
     }
 
+    @Override
     public Etudiant affecterEtudiantAReservation(String nomEt, String prenomEt, Long idReservation) {
         Etudiant etudiant = etudiantRespository.findByNomEtAndPrenomEt(nomEt, prenomEt);
-        Reservation reservation = reservationRespository.findById(idReservation).get();
-
-
-        etudiant.getReservations().add(reservation);
-        return etudiantRespository.save(etudiant);
+        Optional<Reservation> optionalReservation = reservationRespository.findById(idReservation);
+        if (etudiant != null && optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            etudiant.getReservations().add(reservation);
+            return etudiantRespository.save(etudiant);
+        } else {
+            return null;
+        }
     }
 
+
     public Page<Etudiant> findEtudiantsWithPagination(int offset, int pageSize) {
-        Page<Etudiant> etudiants = etudiantRespository.findAll(PageRequest.of(offset, pageSize));
-        return etudiants;
+        return etudiantRespository.findAll(PageRequest.of(offset, pageSize));
     }
 
     public ByteArrayInputStream etudiantPDFReport(List<Etudiant> etudiants) {

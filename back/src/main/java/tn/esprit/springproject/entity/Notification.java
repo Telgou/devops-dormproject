@@ -1,7 +1,6 @@
 package tn.esprit.springproject.entity;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
 

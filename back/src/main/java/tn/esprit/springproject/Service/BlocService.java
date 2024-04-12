@@ -1,23 +1,20 @@
 package tn.esprit.springproject.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.entity.Bloc;
 
 import tn.esprit.springproject.Repository.BlocRepository;
 import tn.esprit.springproject.entity.Chambre;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
+@AllArgsConstructor
 public class BlocService implements iBlocService {
-    //    EtudiantRespository etudiantRespository;
 
-    @Autowired
     BlocRepository blocRepository;
-    @Autowired
     ChambreService chambreService;
 
     @Override
@@ -37,8 +34,10 @@ public class BlocService implements iBlocService {
 
     @Override
     public Bloc retrieveBloc(Long idBloc) {
-        return blocRepository.findById(idBloc).get();
+        return blocRepository.findById(idBloc)
+                .orElseThrow(() -> new NoSuchElementException("Bloc not found with id: " + idBloc));
     }
+
 
     @Override
     public void removeBloc(Long idBloc) {

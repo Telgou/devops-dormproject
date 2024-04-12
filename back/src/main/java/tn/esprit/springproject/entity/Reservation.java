@@ -2,7 +2,6 @@ package tn.esprit.springproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.Date;
 import java.util.Set;

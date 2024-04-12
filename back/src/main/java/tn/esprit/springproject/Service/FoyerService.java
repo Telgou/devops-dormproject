@@ -1,26 +1,24 @@
 package tn.esprit.springproject.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.springproject.Repository.BlocRepository;
 import tn.esprit.springproject.Repository.NotificationRepository;
-import tn.esprit.springproject.entity.Bloc;
 import tn.esprit.springproject.entity.Foyer;
 import tn.esprit.springproject.Repository.FoyerRepository;
-import tn.esprit.springproject.entity.Notification;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class FoyerService implements iFoyerService {
-    @Autowired
+
     FoyerRepository foyerRespository;
-    @Autowired
+
     BlocRepository blocRepository;
-    @Autowired
+
     private NotificationRepository notificationRepository;
 
     @Override
@@ -30,18 +28,11 @@ public class FoyerService implements iFoyerService {
 
     @Override
     public Foyer addFoyer(Foyer foyer) {
-        Foyer addedFoyer = foyerRespository.save(foyer);
-        System.out.println("Foyer ajouté : " + addedFoyer.getNomFoyer());
-
-        // Après avoir ajouté le foyer, créez une notification
-        String message = "Un nouveau foyer a été ajouté : " + addedFoyer.getNomFoyer(); // Personnalisez le message selon vos besoins
-        // createNotification(addedFoyer.getResponsableUsername(), message);
-
-        return addedFoyer;
+        return foyerRespository.save(foyer);
     }
 
     @Override
-    public Foyer updateFoyer(Foyer e) throws Exception {
+    public Foyer updateFoyer(Foyer e) {
         Optional<Foyer> foyerUpdated = foyerRespository.findById(e.getIdFoyer());
         if (foyerUpdated.isPresent()) {
             Foyer readyToUpdate = foyerUpdated.get();
@@ -49,14 +40,16 @@ public class FoyerService implements iFoyerService {
             readyToUpdate.setCapaciteFoyer(e.getCapaciteFoyer());
             return foyerRespository.save(readyToUpdate);
 
-        } else throw new Exception("foyer non trouvable avec id " + e.getIdFoyer());
+        } else return new Foyer();
 
     }
 
     @Override
     public Foyer retrieveFoyer(Long idFoyer) {
-        return foyerRespository.findById(idFoyer).get();
+        return foyerRespository.findById(idFoyer)
+                .orElseThrow(() -> new NoSuchElementException("Foyer not found with id: " + idFoyer));
     }
+
 
     @Override
     public void removeFoyer(Long idFoyer) {
@@ -86,29 +79,5 @@ public class FoyerService implements iFoyerService {
 
 
     }
-/*
-    public void sendEmail(String toEmail, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("farah.battikh.2001@gmail.com");
-        message.setTo(toEmail);
-        message.setText(body);
-        message.setSubject(subject);
-        mailsender.send(message);
-        System.out.println("mail sent");
-    }
 
-    public List<Notification> getNotificationsByUser(String username) {
-        return notificationRepository.findByUsernameOrderByTimestampDesc(username);
-    }
-
-    public void createNotification(String username, String message) {
-        System.out.println("Création d'une notification pour " + username + " : " + message);
-
-        Notification notification = new Notification();
-        notification.setUsername(username);
-        notification.setMessage(message);
-        notification.setTimestamp(LocalDateTime.now());
-        notificationRepository.save(notification);
-    }
-*/
 }

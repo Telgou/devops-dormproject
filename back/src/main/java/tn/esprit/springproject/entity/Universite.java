@@ -1,6 +1,5 @@
 package tn.esprit.springproject.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -27,6 +26,7 @@ public class Universite {
     }
 
     public Universite(int i, String universiteTest) {
+        //
     }
 
     public Long getIdUniversite() {
