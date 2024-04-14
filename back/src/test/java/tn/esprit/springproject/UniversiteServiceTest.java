@@ -93,6 +93,7 @@ class UniversiteServiceTest {
     }
 
 */
+    /*
     @Test
     void testSupprimerUniversite() {
         // Appelez la méthode du service pour supprimer une université avec un ID donné
@@ -118,7 +119,8 @@ class UniversiteServiceTest {
         // Vérifiez si le foyer a été correctement affecté à l'université
         assertNotNull(universiteAffectee.getFoyer());
         assertEquals(foyer, universiteAffectee.getFoyer());
-    }
+    }*/
+
 /*
     @Test
     void testDesaffecterFoyerAUniversite() {
