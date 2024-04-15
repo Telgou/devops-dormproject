@@ -38,18 +38,14 @@ class UniversiteServiceMockTest {
         expectedList.add(new Universite(1L, "Universite 1", "kairouan", new Foyer()));
         expectedList.add(new Universite(2L, "Universite 2", "kairouan", new Foyer()));
 
-        // We Mock the behavior of universiteRepository.findAll() and return the expected list
         when(universiteRepository.findAll()).thenReturn(expectedList);
 
         List<Universite> actualList = universiteService.retrieveAllUniversites();
 
-        // We Verify that the findAll() method of the repository was called
         verify(universiteRepository, times(1)).findAll();
 
-        // We Verify that our list is not null
         assertNotNull(actualList, "Returned list should not be null");
 
-        // finally we verify that the actual list matches the expected list
         assertEquals(expectedList.size(), actualList.size(), "Size of returned list should match expected list");
         assertTrue(expectedList.containsAll(actualList) && actualList.containsAll(expectedList), "Returned list should match expected list");
     }
@@ -59,18 +55,18 @@ class UniversiteServiceMockTest {
     void addUniversites() {
         Universite universiteToAdd = new Universite(1L, "Universite Test", "kairouan", new Foyer());
 
-        // We mock the behavior of universiteRepository.save()
+        // mock behavior universiteRepository.save()
         when(universiteRepository.save(universiteToAdd)).thenReturn(universiteToAdd);
 
         Universite addedUniversite = universiteService.addUniversites(universiteToAdd);
 
-        // We verify that the repository method was called exactly once with the expected object
+        // verify .save was called once
         verify(universiteRepository, times(1)).save(eq(universiteToAdd));
 
-        // We verify that the returned object is not null
+        // verify returned object NOT null
         assertNotNull(addedUniversite, "Added universite should not be null");
 
-        // We verify that the returned object is the same as the one passed to the method
+        // verify returned object same as the one passed to the method
         assertSame(universiteToAdd, addedUniversite, "Returned universite should be the same as the one passed to the method");
     }
 
@@ -87,17 +83,13 @@ class UniversiteServiceMockTest {
 
         Universite result = universiteService.affecterFoyerAUniversite(idFoyer, nomUniversite);
 
-        // We verify that the repositories methods were called with the correct parameters
         verify(universiteRepository, times(1)).findByNomUniversite(nomUniversite);
         verify(foyerRepository, times(1)).findById(idFoyer);
 
-        // We verify that the result is not null
         assertNotNull(result, "Result should not be null");
 
-        // We verify that the result matches the mocked university
         assertEquals(mockedUniversite, result, "Result should match mocked university");
 
-        // We erify that the university's foyer is set to the mocked foyer
         assertSame(mockedFoyer, result.getFoyer(), "Foyer of university should match mocked foyer");
     }
 
@@ -115,11 +107,9 @@ class UniversiteServiceMockTest {
         Universite result = universiteService.desaffecterFoyerAUniversite(idFoyer);
 
         if (result != null) {
-            // We verify that the methods of the repositories were called with the correct parameters
             verify(universiteRepository, times(1)).findById(idUniversite);
             verify(foyerRepository, times(1)).findById(idFoyer);
 
-            // We verify that the foyer of the result is null
             assertNull(result.getFoyer(), "Foyer of university should be null");
         } else {
             log.info("Desaffecter test failedd");
