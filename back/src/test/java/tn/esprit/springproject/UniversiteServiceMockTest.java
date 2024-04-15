@@ -112,7 +112,7 @@ class UniversiteServiceMockTest {
 
             assertNull(result.getFoyer(), "Foyer of university should be null");
         } else {
-            log.info("Desaffecter test failedd");
+            log.info("Desaffecter test faileddd");
         }
     }
 
