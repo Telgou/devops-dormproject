@@ -28,10 +28,8 @@ class EtudiantControllerTest {
 
     @Test
     void getEtudiants_ReturnsListOfEtudiants() throws Exception {
-        // Mocking service behavior
         when(etudiantService.retrieveAllEtudiants()).thenReturn(Collections.singletonList(new Etudiant()));
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(etudiantController).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/etudiant/retrieve-all-etudiants"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -40,10 +38,8 @@ class EtudiantControllerTest {
 
     @Test
     void retrieveEtudiant_ReturnsSingleEtudiant() throws Exception {
-        // Mocking service behavior
         when(etudiantService.retrieveEtudiant(anyLong())).thenReturn(new Etudiant());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(etudiantController).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/etudiant/retrieve-etudiant/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -52,10 +48,8 @@ class EtudiantControllerTest {
 
     @Test
     void addEtudiant_ReturnsAddedEtudiant() throws Exception {
-        // Mocking service behavior
         when(etudiantService.addEtudiant(any())).thenReturn(new Etudiant());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(etudiantController).build();
         mockMvc.perform(MockMvcRequestBuilders.post("/etudiant/add-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -66,10 +60,8 @@ class EtudiantControllerTest {
 
     @Test
     void removeEtudiant_ReturnsNoContent() throws Exception {
-        // Mocking service behavior
         doNothing().when(etudiantService).removeEtudiant(anyLong());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(etudiantController).build();
         mockMvc.perform(MockMvcRequestBuilders.delete("/etudiant/remove-etudiant/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -77,10 +69,8 @@ class EtudiantControllerTest {
 
     @Test
     void updateEtudiant_ReturnsUpdatedEtudiant() throws Exception {
-        // Mocking service behavior
         when(etudiantService.updateEtudiant(any())).thenReturn(new Etudiant());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(etudiantController).build();
         mockMvc.perform(MockMvcRequestBuilders.put("/etudiant/update-etudiant")
                         .contentType(MediaType.APPLICATION_JSON)
