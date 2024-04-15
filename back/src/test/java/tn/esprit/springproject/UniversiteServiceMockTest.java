@@ -122,7 +122,7 @@ class UniversiteServiceMockTest {
             // We verify that the foyer of the result is null
             assertNull(result.getFoyer(), "Foyer of university should be null");
         } else {
-            log.info("Desaffecter test failedd");
+            log.info("Desaffecter test failed");
         }
     }
 
