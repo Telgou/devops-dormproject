@@ -32,7 +32,7 @@ The project encompasses a series of important phases:
 
 ✅ Seamless configuration of deployments, services, secrets, and replica sets for orchestrated application deployment on Kubernetes.
 
-![Image](https://i.imgur.com/O1CrjsY.png)
+![Image](https://i.imgur.com/WAt5MuR.png)
 
 ![Image](https://i.imgur.com/947FZWn.png)
 
