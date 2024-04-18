@@ -30,10 +30,9 @@ class ReservationControllerTest {
 
     @Test
     void getReservations_ReturnsListOfReservations() throws Exception {
-        // Mocking service behavior
+
         lenient().when(reservationService.retrieveAllReservations()).thenReturn(Collections.singletonList(new Reservation()));
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/retrieve-all-reservations"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
@@ -41,10 +40,8 @@ class ReservationControllerTest {
 
     @Test
     void retrieveReservation_ReturnsSingleReservation() throws Exception {
-        // Mocking service behavior
         lenient().when(reservationService.retrieveReservation(anyLong())).thenReturn(new Reservation());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/retrieve-reservation/1"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
@@ -52,10 +49,8 @@ class ReservationControllerTest {
 
     @Test
     void addReservation_ReturnsAddedReservation() throws Exception {
-        // Mocking service behavior
         lenient().when(reservationService.addReservation(any())).thenReturn(new Reservation());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
         mockMvc.perform(MockMvcRequestBuilders.post("/add-reservation")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -65,10 +60,8 @@ class ReservationControllerTest {
 
     @Test
     void removeReservation_ReturnsNoContent() throws Exception {
-        // Mocking service behavior
         lenient().doNothing().when(reservationService).removeReservation(anyLong());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
         mockMvc.perform(MockMvcRequestBuilders.delete("/remove-reservation/1"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
@@ -76,10 +69,8 @@ class ReservationControllerTest {
 
     @Test
     void updateReservation_ReturnsUpdatedReservation() throws Exception {
-        // Mocking service behavior
         lenient().when(reservationService.updateReservation(any())).thenReturn(new Reservation());
 
-        // Testing controller
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
         mockMvc.perform(MockMvcRequestBuilders.put("/update-reservation")
                 .contentType(MediaType.APPLICATION_JSON)
