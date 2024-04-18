@@ -27,6 +27,7 @@ The project encompasses a series of important phases:
 ✅ Achievement of continuous delivery through seamless deployment of Docker images to DockerHub.
 
 ✅ Monitoring of containers and different tools metrics with Prometheus and visualization through Grafana dashboards.
+
 ✅ Implementation of real-time email notifications for pipeline status updates.
 
 ✅ Seamless configuration of deployments, services, secrets, and replica sets for orchestrated application deployment on Kubernetes.
